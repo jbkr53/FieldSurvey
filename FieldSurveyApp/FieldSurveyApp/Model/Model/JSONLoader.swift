@@ -8,16 +8,19 @@
 
 import Foundation
 
-class fieldObservatonJSONLoader{
+class SurveySetLoader {
     
-    class func load(fileName: String) -> [FieldSurvey]{
-        var observations = [FieldSurvey]()
+    class func load(jsonFileName: String) -> SurveySet? {
+        var surveySet: SurveySet?
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.dateDecodingStrategy = .iso8601
         
-        if let path = Bundle.main.path(forResource: fileName, ofType: "json"),
-            let data = try? Data(contentsOf: URL(fileURLWithPath: path)) {
-            observations = FieldObservationJSONParser.parse(data)
+        if let jsonFileUrl = Bundle.main.url(forResource: jsonFileName, withExtension: ".json"),
+            let jsonData = try? Data(contentsOf: jsonFileUrl) {
+            surveySet = try? jsonDecoder.decode(SurveySet.self, from: jsonData)
         }
-        return observations
+        
+        return surveySet
     }
-    
 }
+
