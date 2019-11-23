@@ -21,7 +21,8 @@ class FieldObservationViewController: UIViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .medium
-        dateFormatter.dateFormat = "yyyy-MM-dd-HH-mm"
+        dateFormatter.dateFormat = "MMM dd, HH:mm:ss a"
+        
         // Do any additional setup after loading the view.
     }
     
@@ -38,12 +39,12 @@ class FieldObservationViewController: UIViewController, UITableViewDelegate, UIT
         if let cell = cell as? ObservationTableViewCell {
             
             let observation = observations?.observations[indexPath.row]
-            let date = dateFormatter.string(from: observation!.date)
+            
             cell.icon.image = UIImage(named: observation?.classification ?? "")
     
             cell.details.text = observation?.title
         
-            cell.date.text = date
+            cell.date.text = dateFormatter.string(from: observation!.date)
            // cell.date.text = dateFormatter.string(from: observation!.date)
         }
         return cell
